@@ -1,10 +1,15 @@
-import React from 'react';
+import React, {Fragment} from 'react';
+import BuyStock from '../layout/BuyStock';
 
 const Home = () => {
   return (
-    <div>
-      <h1>HOME</h1>
-    </div>
+    <Fragment>
+      <h1>HELLO</h1>
+      <div className='wrapper'>
+        <div className='vert-line' />
+        <BuyStock />
+      </div>
+    </Fragment>
   );
 };
 

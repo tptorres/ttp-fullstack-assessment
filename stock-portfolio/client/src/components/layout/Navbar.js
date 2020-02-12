@@ -4,14 +4,17 @@ import {Link} from 'react-router-dom';
 
 const Navbar = ({title}) => {
   return (
-    <div className='navbar'>
+    <div className='navbar bg-primary'>
       <h1>{title}</h1>
       <ul>
         <li>
-          <Link to='/'></Link>Portfolio
+          <Link to='/'>Portfolio</Link>
         </li>
         <li>
-          <Link to='/transactions'></Link>
+          <i className='fas fa-grip-lines-vertical'></i>
+        </li>
+        <li>
+          <Link to='/transactions'>Transactions</Link>
         </li>
       </ul>
     </div>
