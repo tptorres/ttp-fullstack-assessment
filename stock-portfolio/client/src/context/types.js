@@ -1,3 +1,1 @@
-
-
-export default
+export const DISPLAY_TRANSACTIONS = 'DISPLAY_TRANSACTIONS';
