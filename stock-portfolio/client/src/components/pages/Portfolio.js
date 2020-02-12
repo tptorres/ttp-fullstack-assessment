@@ -1,10 +1,10 @@
 import React, {Fragment} from 'react';
-import BuyStock from '../layout/BuyStock';
+import BuyStock from '../stocks/BuyStock';
 
-const Home = () => {
+const Portfolio = () => {
   return (
     <Fragment>
-      <h1>HELLO</h1>
+      <h1>Portfolio</h1>
       <div className='wrapper'>
         <div className='vert-line' />
         <BuyStock />
@@ -13,4 +13,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Portfolio;

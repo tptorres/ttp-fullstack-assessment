@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import moment from 'moment';
 
 class BuyStock extends Component {
   constructor(props) {
@@ -13,17 +12,16 @@ class BuyStock extends Component {
 
   fetchTickerPrice = async () => {
     const res = await axios.get(
-      `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${this.state.symbol}&interval=5min&outputsize=compact&apikey=PV28K0ZS6QT49SGT`
+      `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${this.state.symbol}&apikey=PV28K0ZS6QT49SGT`
     );
-    // formatting date for api call
-    var date = new Date();
-    const final = moment(date).format('YYYY-MM-DD');
-    const cash = 5000;
-    console.log(res.data['Time Series (Daily)'][final]['1. open']);
-    var test = res.data['Time Series (Daily)'][final]['1. open'];
-    if (test * 10 > cash) {
+
+    console.log(res.data);
+    var test = res.data['Global Quote']['02. open'];
+    console.log(test);
+    var cash = 5000;
+    /* if (test * 10 > cash) {
     } else {
-    }
+    } */
   };
 
   handleInput = e => {

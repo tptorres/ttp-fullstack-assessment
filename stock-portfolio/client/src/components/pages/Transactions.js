@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {Fragment} from 'react';
+import Trades from '../trades/Trades';
 
 const Transactions = () => {
   return (
-    <div>
-      <h1>Transactions</h1>
-    </div>
+    <Fragment>
+      <Trades />
+    </Fragment>
   );
 };
 
