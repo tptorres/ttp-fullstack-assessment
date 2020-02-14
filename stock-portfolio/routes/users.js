@@ -17,7 +17,7 @@ router.post(
       .not()
       .isEmpty(),
     check('email', 'Please add valid email').isEmail(),
-    check('password', 'Please add a password longer than 6 characters').isLength({ min: 6 })
+    check('password', 'Please add a password').exists()
   ],
   async (req, res) => {
     // Returns a result object
@@ -60,7 +60,7 @@ router.post(
       // Signing the token and passing in how long the token will be good for
       jwt.sign(payload, config.get('jwtSecret'), { expiresIn: 3600 }, (err, token) => {
         if (err) throw err;
-        res.json(token);
+        res.json({ token });
       });
 
       //
