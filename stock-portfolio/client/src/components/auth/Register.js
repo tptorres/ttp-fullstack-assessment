@@ -1,10 +1,24 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import Alerts from '../layout/Alerts';
 import AlertContext from '../../context/alert/alertContext';
+import AuthContext from '../../context/auth/authContext';
+import { set } from 'mongoose';
 
 const Register = () => {
+  // Alerts
   const alertContext = useContext(AlertContext);
   const { setAlert } = alertContext;
+
+  // Authentication
+  const authContext = useContext(AuthContext);
+  const { clearErrors, registerUser, error } = authContext;
+
+  useEffect(() => {
+    if (error === 'A user already exists with that email') {
+      setAlert(error, 'danger');
+      clearErrors();
+    }
+  }, [error]);
 
   const [user, setUser] = useState({
     name: '',
@@ -12,7 +26,6 @@ const Register = () => {
     password: '',
     confirmPassword: ''
   });
-
   const { name, email, password, confirmPassword } = user;
 
   const onChange = event => setUser({ ...user, [event.target.name]: event.target.value });
@@ -26,7 +39,11 @@ const Register = () => {
     } else if (password !== confirmPassword) {
       setAlert('Make sure passwords match', 'danger');
     } else {
-      console.log('Submitted successfully');
+      registerUser({
+        name,
+        email,
+        password
+      });
     }
   };
 
