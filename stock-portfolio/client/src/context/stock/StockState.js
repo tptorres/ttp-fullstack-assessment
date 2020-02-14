@@ -1,11 +1,12 @@
-import React, {useReducer} from 'react';
+import React, { useReducer } from 'react';
 import StockReducer from './stockReducer';
 import StockContext from './stockContext';
-import {ADD_STOCK, UPDATE_STOCK} from '../types';
+import { ADD_STOCK, UPDATE_STOCK, SET_CURRENT } from '../types';
 
 const StockState = props => {
   const initialState = {
     currentCash: 5000,
+    portfolioCash: 0,
     currentStocks: [
       {
         symbol: 'AAPL',
@@ -23,56 +24,43 @@ const StockState = props => {
         shareAmount: 7,
         sharePrice: 300
       }
-    ]
+    ],
+    stockToUpdate: null
   };
 
   const [state, dispatch] = useReducer(StockReducer, initialState);
 
   // Add Stock
+  // Have to add the stocks current price in BuyStock
   const addStock = stock => {
+    dispatch({ type: ADD_STOCK, payload: stock });
+  };
+
+  // Update Stock
+  const updateStock = newStock => {
+    dispatch({ type: UPDATE_STOCK, payload: newStock });
+  };
+
+  const setCurrent = symbol => {
     dispatch({
-      type: ADD_STOCK,
-      payload: stock
+      type: SET_CURRENT,
+      payload: symbol
     });
   };
 
-  const updateStock = modifiedStock => {
-    var stockToUpdate = {};
-    for (var i = 0; i < state.currentStocks.length; i++) {
-      if (modifiedStock.symbol === state.currentStocks[i].symbol) {
-        state.currentStocks[i].shareAmount += Number(modifiedStock.shareAmount);
-        stockToUpdate = state.currentStocks[i];
-        break;
-      }
-    }
-    // Force the rerender of the newly computed # of shares
-    dispatch({
-      type: UPDATE_STOCK
-    });
-  };
-
-  // Helpers
-  // Check if Stock exists
-
-  // CHange to for loop
-  const stockExists = symbol => {
-    var flag = false;
-    state.currentStocks.map(stock => {
-      if (symbol === stock.symbol) {
-        flag = true;
-      }
-    });
-    return flag;
-  };
+  // set stockToUpdate and remove updated stock from list ; keep immutability
 
   return (
     <StockContext.Provider
       value={{
         currentCash: state.currentCash,
+        portfolioCash: state.portfolioCash,
         currentStocks: state.currentStocks,
+        currentStock: state.currentStock,
+        stockToUpdate: state.stockToUpdate,
         addStock,
-        stockExists,
-        updateStock
+        updateStock,
+        setCurrent
       }}
     >
       {props.children}

@@ -1,8 +1,8 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-const Transaction = ({transaction}) => {
-  const {type, symbol, shareAmount, sharePrice} = transaction;
+const Transaction = ({ transaction }) => {
+  const { type, symbol, shareAmount, sharePrice } = transaction;
 
   return (
     <div className='trans-card bg-light'>

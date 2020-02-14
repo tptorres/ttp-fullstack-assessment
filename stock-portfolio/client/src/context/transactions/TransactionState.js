@@ -1,4 +1,4 @@
-import React, {useReducer} from 'react';
+import React, { useReducer } from 'react';
 import TransactionReducer from './transactionReducer';
 import TransactionContext from './transactionContext';
 

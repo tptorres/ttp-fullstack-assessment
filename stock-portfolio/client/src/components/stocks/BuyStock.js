@@ -1,29 +1,36 @@
-import React, {useContext, useState} from 'react';
+import React, { useContext, useState } from 'react';
 import StockContext from '../../context/stock/stockContext';
 
 const BuyStock = () => {
   const stockContext = useContext(StockContext);
-  const {currentCash} = stockContext;
+  const { currentCash, updateStock, addStock, currentStocks } = stockContext;
 
   const [stock, setStock] = useState({
     symbol: '',
     shareAmount: '',
+    // Get price from symbol
     sharePrice: 1000
   });
+  const { symbol, shareAmount } = stock;
 
-  const {symbol, shareAmount} = stock;
-
-  const onChange = event => setStock({...stock, [event.target.name]: event.target.value});
+  const onChange = event => setStock({ ...stock, [event.target.name]: event.target.value });
 
   const onSubmit = event => {
     event.preventDefault();
 
-    //check if it exists and return a boolean
-    var check = stockContext.stockExists(stock.symbol);
-    if (check) {
-      stockContext.updateStock(stock);
+    // Inside this function, later on when doing the api call check if it is a valid ticker first, then check if it exists in currentStocks
+    var stockExists = currentStocks.some(storedStock => {
+      return storedStock.symbol == stock.symbol;
+    });
+
+    if (stockExists) {
+      // Grab stock from state
+      const storedStock = currentStocks.find(storedStock => storedStock.symbol === stock.symbol);
+      stock.shareAmount = Number(stock.shareAmount) + storedStock.shareAmount;
+
+      updateStock(stock);
     } else {
-      stockContext.addStock(stock);
+      addStock(stock);
     }
 
     // Resets the form after submission
