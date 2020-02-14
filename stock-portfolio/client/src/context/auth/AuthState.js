@@ -1,0 +1,55 @@
+import React, { useReducer } from 'react';
+import AuthReducer from './authReducer';
+import AuthContext from './authContext';
+import axios from 'axios';
+import {
+  REGISTER_SUCCESS,
+  REGISTER_FAIL,
+  USER_LOADED,
+  LOGIN_SUCCESS,
+  LOGIN_FAIL,
+  LOGOUT,
+  CLEAR_ERRORS,
+  AUTH_ERROR
+} from '../types';
+
+const AuthState = props => {
+  const initialState = {
+    isAuthenticated: null,
+    loading: true,
+    error: null,
+    token: localStorage.getItem('token'),
+    user: null
+  };
+
+  const [state, dispatch] = useReducer(AuthReducer, initialState);
+
+  // Register a User
+  const registerUser = async formInfo => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+    try {
+      const res = await axios.post('/api/users', formInfo, config);
+    } catch (err) {}
+  };
+
+  return (
+    <AuthContext.Provider
+      value={{
+        user: state.user,
+        isAuthenticated: state.isAuthenticated,
+        token: state.token,
+        loading: state.loading,
+        error: state.error,
+        registerUser
+      }}
+    >
+      {props.children}
+    </AuthContext.Provider>
+  );
+};
+
+export default AuthState;

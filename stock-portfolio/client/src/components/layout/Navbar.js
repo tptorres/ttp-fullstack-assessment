@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-const Navbar = ({title}) => {
+const Navbar = ({ title }) => {
   return (
     <div className='navbar bg-primary'>
       <h1>{title}</h1>
@@ -15,6 +15,15 @@ const Navbar = ({title}) => {
         </li>
         <li>
           <Link to='/transactions'>Transactions</Link>
+        </li>
+        <li>
+          <Link to='/login'>Login</Link>
+        </li>
+        <li>
+          <i className='fas fa-grip-lines-vertical'></i>
+        </li>
+        <li>
+          <Link to='/register'>Register</Link>
         </li>
       </ul>
     </div>

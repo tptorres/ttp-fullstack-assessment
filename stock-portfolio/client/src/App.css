@@ -89,7 +89,15 @@ textarea {
   width: 100%;
   padding: 0.4rem;
   font-size: 1.2rem;
-  border: 1px solid black;
+  border: 1px solid #ccc;
+}
+
+input[type='submit'],
+button {
+  font: inherit;
+}
+input {
+  margin: 1.1rem 0;
 }
 
 /* input[type='submit'],
@@ -99,10 +107,6 @@ button {
   border: 2px solid var(--primary-color);
   padding: 0.8rem;
 } */
-
-input {
-  margin: 1.2rem 0;
-}
 
 /* Divider between buying stock and Portfolio */
 .vert-line {
@@ -206,4 +210,57 @@ input {
 .stock-shares {
   display: flex;
   flex-direction: row;
+}
+
+/* Stock Item Transitions */
+.item-enter {
+  opacity: 0;
+}
+.item-enter-active {
+  opacity: 1;
+  transition: opacity 1000ms ease-in;
+}
+.item-exit {
+  opacity: 1;
+}
+.item-exit-active {
+  opacity: 0;
+  transition: opacity 1000ms ease-in;
+}
+
+/* Register / Login Styles*/
+
+.register-login-form {
+  max-width: 500px;
+  margin: 2rem auto;
+  overflow: hidden;
+  padding: 0 2rem;
+}
+
+.register-login-form input {
+  margin: 0.4rem 0;
+}
+
+.register-login-form .input-group {
+  margin: 1.2rem 0;
+}
+
+.alert {
+  max-width: 500px;
+  margin: 2rem auto;
+  color: #333;
+  background: var(--light-color);
+  padding: 0.5rem;
+  text-align: center;
+  opacity: 0.9;
+  border-radius: 5px;
+}
+
+.alert i {
+  font-size: 1.3rem;
+}
+
+.alert-danger {
+  color: #fff;
+  background: var(--danger-color);
 }
