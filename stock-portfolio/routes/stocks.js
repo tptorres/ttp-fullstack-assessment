@@ -56,4 +56,31 @@ router.post(
     }
   }
 );
+
+// @route api/stocks/:id
+// @info Update user's stock
+router.put('/:id', auth, async (req, res) => {
+  const { symbol, quantity } = req.body;
+
+  const stockFields = {};
+  if (symbol) stockFields.symbol = symbol;
+  if (quantity) stockFields.quantity = quantity;
+
+  try {
+    let stock = await Stock.findById(req.params.id);
+    if (!stock) return res.status(404).json({ msg: 'Stock not found' });
+
+    // Update stock only if user owns its
+    if (stock.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'Authorization denied' });
+    }
+
+    stock = await Stock.findByIdAndUpdate(req.params.id, { $set: stockFields }, { new: true });
+    res.json(stock);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;
