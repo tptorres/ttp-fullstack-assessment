@@ -4,21 +4,27 @@ import AlertContext from '../../context/alert/alertContext';
 import AuthContext from '../../context/auth/authContext';
 import { set } from 'mongoose';
 
-const Register = () => {
+const Register = props => {
   // Alerts
   const alertContext = useContext(AlertContext);
   const { setAlert } = alertContext;
 
   // Authentication
   const authContext = useContext(AuthContext);
-  const { clearErrors, registerUser, error } = authContext;
+  const { clearErrors, registerUser, error, isAuthenticated } = authContext;
 
   useEffect(() => {
-    if (error === 'A user already exists with that email') {
+    // Redirecting after a successful registration
+    if (isAuthenticated) {
+      props.history.push('/');
+    }
+
+    if (error === 'A user with that email already exists') {
       setAlert(error, 'danger');
       clearErrors();
     }
-  }, [error]);
+    // eslint-disable-next-line
+  }, [error, isAuthenticated, props.history]);
 
   const [user, setUser] = useState({
     name: '',
