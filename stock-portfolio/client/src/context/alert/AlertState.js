@@ -2,9 +2,9 @@ import React, { useReducer } from 'react';
 import AlertReducer from './alertReducer';
 import AlertContext from './alertContext';
 import uuid from 'uuid';
-import { SET_ALERT, REMOVE_ALERT } from '../types';
+import { SET_ALERT, REMOVE_ALERT, REMOVE_ALL_ALERTS } from '../types';
 
-const AuthState = props => {
+const AlertState = props => {
   const initialState = [];
 
   const [state, dispatch] = useReducer(AlertReducer, initialState);
@@ -23,11 +23,13 @@ const AuthState = props => {
     setTimeout(() => dispatch({ type: REMOVE_ALERT, payload: id }), timeoutLength);
   };
 
+  const removeAlerts = () => dispatch({ type: REMOVE_ALL_ALERTS });
   return (
     <AlertContext.Provider
       value={{
         alerts: state,
-        setAlert
+        setAlert,
+        removeAlerts
       }}
     >
       {props.children}
@@ -35,4 +37,4 @@ const AuthState = props => {
   );
 };
 
-export default AuthState;
+export default AlertState;

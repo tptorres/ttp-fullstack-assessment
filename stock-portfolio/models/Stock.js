@@ -9,7 +9,11 @@ const StockSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  quantity: {
+  shareAmount: {
+    type: String,
+    required: true
+  },
+  sharePrice: {
     type: Number,
     required: true
   },

@@ -30,7 +30,7 @@ const TransactionState = props => {
     ]
   };
 
-  const [state, dispatch] = useReducer(TransactionReducer, initialState);
+  const [state] = useReducer(TransactionReducer, initialState);
 
   // Display transactions
 

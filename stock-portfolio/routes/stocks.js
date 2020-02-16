@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { check, validationResult } = require('express-validator/check');
+const { check, validationResult } = require('express-validator');
 const auth = require('../middleware/auth');
 
 const User = require('../models/User');
@@ -27,7 +27,10 @@ router.post(
       check('symbol', 'Ticker symbol is required')
         .not()
         .isEmpty(),
-      check('quantity', 'Amount not specified')
+      check('shareAmount', 'Amount not specified')
+        .not()
+        .isEmpty(),
+      check('sharePrice', 'Need a stock price')
         .not()
         .isEmpty()
     ]
@@ -35,16 +38,18 @@ router.post(
   async (req, res) => {
     const errors = validationResult(req);
     // If it is not empty, one of the fields hasnt been filled in
+
     if (!errors.isEmpty()) {
+      console.log('EETTTT');
       return res.status(400).json({ errors: errors.array() });
     }
-
-    const { symbol, quantity } = req.body;
+    const { symbol, shareAmount, sharePrice } = req.body;
 
     try {
       const newStock = new Stock({
         symbol,
-        quantity,
+        shareAmount,
+        sharePrice,
         user: req.user.id // add the stock for a specific user
       });
 
@@ -60,13 +65,14 @@ router.post(
 // @route api/stocks/:id
 // @info Update user's stock
 router.put('/:id', auth, async (req, res) => {
-  const { symbol, quantity } = req.body;
+  const { symbol, shareAmount, sharePrice } = req.body;
 
   const stockFields = {};
   if (symbol) stockFields.symbol = symbol;
-  if (quantity) stockFields.quantity = quantity;
+  if (shareAmount) stockFields.shareAmount = shareAmount;
 
   try {
+    // getting stock from db through parameter
     let stock = await Stock.findById(req.params.id);
     if (!stock) return res.status(404).json({ msg: 'Stock not found' });
 
@@ -77,6 +83,8 @@ router.put('/:id', auth, async (req, res) => {
 
     stock = await Stock.findByIdAndUpdate(req.params.id, { $set: stockFields }, { new: true });
     res.json(stock);
+
+    //
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

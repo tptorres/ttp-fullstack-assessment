@@ -38,15 +38,19 @@ ul {
   list-style: none;
 }
 
-.navbar ul {
-  display: flex;
-}
-
 a {
   color: var(--primary-color);
   text-decoration: none;
 }
 
+a i {
+  padding: 0 0.3rem;
+}
+
+/* Navbar styles */
+.navbar ul {
+  display: flex;
+}
 .navbar a {
   color: #fff;
   padding: 0.45rem;
@@ -60,6 +64,8 @@ a {
 .navbar .welcome span {
   margin-right: 0.6rem;
 }
+
+/*  */
 
 .bg-primary {
   background: var(--primary-color);

@@ -12,7 +12,8 @@ import AlertState from './context/alert/AlertState';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Alerts from './components/layout/Alerts';
-import setToken from './setToken';
+import setToken from './utilities/setToken';
+import PrivateRoute from './utilities/PrivateRoute';
 
 if (localStorage.token) {
   setToken(localStorage.token);
@@ -29,8 +30,12 @@ const App = () => {
                 <div className='container'>
                   <Alerts />
                   <Switch>
-                    <Route exact path='/' component={Portfolio}></Route>
-                    <Route exact path='/transactions' component={TransactionsDisplay}></Route>
+                    <PrivateRoute exact path='/' component={Portfolio}></PrivateRoute>
+                    <PrivateRoute
+                      exact
+                      path='/transactions'
+                      component={TransactionsDisplay}
+                    ></PrivateRoute>
                     <Route exact path='/register' component={Register}></Route>
                     <Route exact path='/login' component={Login}></Route>
                   </Switch>

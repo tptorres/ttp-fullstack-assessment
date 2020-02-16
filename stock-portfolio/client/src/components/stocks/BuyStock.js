@@ -18,17 +18,15 @@ const BuyStock = () => {
   const onSubmit = event => {
     event.preventDefault();
 
-    // Inside this function, later on when doing the api call check if it is a valid ticker first, then check if it exists in currentStocks
-    var stockExists = currentStocks.some(storedStock => {
+    /* var stockExists = currentStocks.some(storedStock => {
       return storedStock.symbol == stock.symbol;
-    });
+    }); */
 
-    if (stockExists) {
-      // Grab stock from state
-      const storedStock = currentStocks.find(storedStock => storedStock.symbol === stock.symbol);
-      stock.shareAmount = Number(stock.shareAmount) + storedStock.shareAmount;
+    var stockToUpdate = currentStocks.find(updatedStock => updatedStock.symbol === stock.symbol);
 
-      updateStock(stock);
+    // Set an alert for when fields are not filled in //
+    if (stockToUpdate !== undefined) {
+      updateStock(stockToUpdate, stock.shareAmount);
     } else {
       addStock(stock);
     }
@@ -45,7 +43,13 @@ const BuyStock = () => {
     <form onSubmit={onSubmit}>
       <h1>Cash - ${currentCash}</h1>
       <input type='text' name='symbol' placeholder='Ticker' value={symbol} onChange={onChange} />
-      <input type='text' name='shareAmount' placeholder='Qty' value={shareAmount} onChange={onChange} />
+      <input
+        type='text'
+        name='shareAmount'
+        placeholder='Qty'
+        value={shareAmount}
+        onChange={onChange}
+      />
       <div>
         <input type='submit' value='Buy Stock' className='btn stock-btn' />
       </div>

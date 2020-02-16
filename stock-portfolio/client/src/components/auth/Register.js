@@ -1,8 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
-import Alerts from '../layout/Alerts';
 import AlertContext from '../../context/alert/alertContext';
 import AuthContext from '../../context/auth/authContext';
-import { set } from 'mongoose';
 
 const Register = props => {
   // Alerts
@@ -71,7 +69,12 @@ const Register = props => {
         </div>
         <div className='input-group'>
           <label htmlFor='confirmPassword'>Confirm Password</label>
-          <input type='password' name='confirmPassword' value={confirmPassword} onChange={onChange} />
+          <input
+            type='password'
+            name='confirmPassword'
+            value={confirmPassword}
+            onChange={onChange}
+          />
         </div>
         <input type='submit' value='Register' className='btn stock-btn' />
       </form>

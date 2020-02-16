@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const config = require('config');
-const { check, validationResult } = require('express-validator/check');
+const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const auth = require('../middleware/auth');
@@ -11,7 +11,10 @@ const User = require('../models/User');
 // @info Get logged in user
 router.post(
   '/',
-  [check('email', 'Please add a valid email').isEmail(), check('password', 'Please add a password').exists()],
+  [
+    check('email', 'Please add a valid email').isEmail(),
+    check('password', 'Please add a password').exists()
+  ],
   async (req, res) => {
     const errors = validationResult(req);
     // If it is not empty, one of the fields hasnt been filled in
