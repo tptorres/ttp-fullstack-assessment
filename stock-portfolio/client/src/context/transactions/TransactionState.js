@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
 import TransactionReducer from './transactionReducer';
 import TransactionContext from './transactionContext';
-import { DISPLAY_FAILED, DISPLAY_TRANSACTIONS } from '../types';
+import { DISPLAY_TRANSACTIONS } from '../types';
 import axios from 'axios';
 
 // display list of trades

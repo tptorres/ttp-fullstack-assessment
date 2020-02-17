@@ -8,15 +8,14 @@ const Portfolio = () => {
   const authContext = useContext(AuthContext);
   const stockContext = useContext(StockContext);
 
-  const { portfolio, currentStocks, getUserAssets, cash } = stockContext;
+  const { portfolio, currentStocks, getUserAssets } = stockContext;
 
   useEffect(() => {
-    console.log('Page');
     // Authenticates the user and makes sure the correct one is in state by looking at the token
     authContext.userLoaded();
     getUserAssets();
     // eslint-disable-next-line
-  }, [currentStocks, portfolio]);
+  }, [currentStocks]);
 
   return (
     <div className='container'>

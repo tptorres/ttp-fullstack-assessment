@@ -6,20 +6,10 @@ import Spinner from '../layout/Spinner';
 
 const Stocks = () => {
   const stockContext = useContext(StockContext);
-  const {
-    currentStocks,
-    getStocks,
-    loading,
-    getUserAssets,
-    cash,
-    portfolio,
-    error,
-    transactions
-  } = stockContext;
+  const { currentStocks, getStocks, loading } = stockContext;
 
   useEffect(() => {
     getStocks();
-    console.log('STOCK');
     // eslint-disable-next-line
   }, []);
 

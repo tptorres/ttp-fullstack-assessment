@@ -1,4 +1,4 @@
-import { DISPLAY_FAILED, DISPLAY_TRANSACTIONS } from '../types';
+import { DISPLAY_TRANSACTIONS } from '../types';
 
 export default (state, action) => {
   switch (action.type) {

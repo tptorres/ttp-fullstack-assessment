@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import StockContext from '../../context/stock/stockContext';
 import AlertContext from '../../context/alert/alertContext';
-import { set } from 'mongoose';
 
 const BuyStock = () => {
   // Alerts
@@ -9,27 +8,13 @@ const BuyStock = () => {
   const { setAlert } = alertContext;
 
   const stockContext = useContext(StockContext);
-  const {
-    updateStock,
-    addStock,
-    currentStocks,
-    clearErrors,
-    error,
-    getStocks,
-    cash,
-    getUserAssets,
-    portfolio
-  } = stockContext;
+  const { updateStock, addStock, currentStocks, clearErrors, error, cash } = stockContext;
 
   const [stock, setStock] = useState({
     symbol: '',
     shareAmount: ''
   });
   const { symbol, shareAmount } = stock;
-
-  useEffect(() => {
-    getUserAssets();
-  }, []);
 
   useEffect(() => {
     if (error === 'Unknown symbol') {
