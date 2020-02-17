@@ -8,22 +8,24 @@ import {
   STOCK_ERROR,
   GET_STOCKS,
   CLEAR_STOCKS,
-  CLEAR_ERRORS
+  CLEAR_ERRORS,
+  GET_ASSETS,
+  ASSET_ERROR
 } from '../types';
 
 const StockState = props => {
   const initialState = {
-    currentCash: 5000,
-    portfolioCash: 0,
+    cash: null,
+    portfolio: null,
     error: null,
     currentStocks: [],
+    transactions: [],
     loading: true
   };
 
   const [state, dispatch] = useReducer(StockReducer, initialState);
 
   // Add Stock
-
   const addStock = async stock => {
     const config = {
       headers: {
@@ -86,19 +88,19 @@ const StockState = props => {
       });
     }
   };
-
-  const refreshStocks = async () => {
+  // Getting User cash and portfolio
+  // Still have to error check
+  const getUserAssets = async () => {
     try {
-      const res = await axios.get('/api/stocks/refresh');
-
+      const res = await axios.get('/api/users');
       dispatch({
-        type: GET_STOCKS,
+        type: GET_ASSETS,
         payload: res.data
       });
     } catch (err) {
       dispatch({
-        type: STOCK_ERROR,
-        payload: err.response.data.errors
+        type: ASSET_ERROR,
+        payload: err.response.data.msg
       });
     }
   };
@@ -117,18 +119,16 @@ const StockState = props => {
   return (
     <StockContext.Provider
       value={{
-        currentCash: state.currentCash,
-        portfolioCash: state.portfolioCash,
+        cash: state.cash,
+        portfolio: state.portfolio,
         currentStocks: state.currentStocks,
-        currentStock: state.currentStock,
-        stockToUpdate: state.stockToUpdate,
         error: state.error,
         addStock,
         updateStock,
         getStocks,
         clearStocks,
-        refreshStocks,
-        clearErrors
+        clearErrors,
+        getUserAssets
       }}
     >
       {props.children}

@@ -4,9 +4,21 @@ const config = require('config');
 const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-
+const auth = require('../middleware/auth');
 // User Model
 const User = require('../models/User');
+const Stock = require('../models/Stock');
+const assetware = require('../middleware/assetware');
+
+router.get('/', [auth, assetware], async (req, res) => {
+  try {
+    const cash = await User.findOne({ _id: req.user.id }).select('cash -_id');
+    res.json(cash);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 // @route POST api/users
 // @info Registering a user

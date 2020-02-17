@@ -1,27 +1,24 @@
 import {
   ADD_STOCK,
   UPDATE_STOCK,
-  SET_CURRENT,
   STOCK_ERROR,
   GET_STOCKS,
   CLEAR_STOCKS,
   REFRESH_STOCKS,
-  CLEAR_ERRORS
+  CLEAR_ERRORS,
+  GET_ASSETS,
+  ASSET_ERROR
 } from '../types';
 
 export default (state, action) => {
   switch (action.type) {
-    case SET_CURRENT:
-      return {
-        ...state,
-        currentStock: state.currentStocks.filter(stock => stock.symbol === action.payload)[0]
-      };
     case UPDATE_STOCK:
       return {
         ...state,
-        currentStocks: state.currentStocks.map(stock =>
-          stock.symbol === action.payload.symbol ? action.payload : stock
-        )
+        currentStocks: [
+          action.payload,
+          ...state.currentStocks.filter(stock => stock.symbol !== action.payload.symbol)
+        ]
       };
     case ADD_STOCK:
       return {
@@ -50,6 +47,11 @@ export default (state, action) => {
       return {
         ...state,
         error: null
+      };
+    case GET_ASSETS:
+      return {
+        ...state,
+        cash: action.payload.cash
       };
     default:
       return state;

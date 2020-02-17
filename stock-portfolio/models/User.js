@@ -14,6 +14,15 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true
   },
+  cash: {
+    type: Number,
+    required: true,
+    default: 5000
+  },
+  portfolio: {
+    type: Number
+  },
+  transactions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'stocks', default: [] }],
   date: {
     type: Date,
     default: Date.now

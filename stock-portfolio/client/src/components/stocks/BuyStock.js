@@ -44,7 +44,9 @@ const BuyStock = () => {
       setAlert('All fields not filled', 'danger');
     }
 
+    // Need to cast shareAmount as the input is a string
     stock.shareAmount = Number(shareAmount);
+
     var stockToUpdate = currentStocks.find(updatedStock => updatedStock.symbol === stock.symbol);
     if (stockToUpdate !== undefined) {
       updateStock(stockToUpdate, stock);

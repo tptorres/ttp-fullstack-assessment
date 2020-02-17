@@ -6,7 +6,6 @@ const validate = require('../middleware/stockValidator');
 const cors = require('cors');
 const User = require('../models/User');
 const Stock = require('../models/Stock');
-const axios = require('axios');
 const validateTicker = require('../middleware/tickerValidator');
 
 // @route /api/auth

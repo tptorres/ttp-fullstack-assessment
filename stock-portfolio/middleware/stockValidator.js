@@ -2,9 +2,9 @@ const axios = require('axios');
 const Stock = require('../models/Stock');
 
 module.exports = async (req, res, next) => {
+  var cash = 0;
   try {
     const query = Stock.find({ user: req.user.id });
-
     for await (const stock of query) {
       const price = await axios.get(
         `https://cloud.iexapis.com/stable/stock/${stock.symbol}/quote?token=sk_cc1c7f21c56d497db10a82203dc80584&filter=open,latestPrice,isUSMarketOpen`

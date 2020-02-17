@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const connectDB = require('./config/database');
-const cors = require('cors');
 
 // Connect to MongoDB
 connectDB();
