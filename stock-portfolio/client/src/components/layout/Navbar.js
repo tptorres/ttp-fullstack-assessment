@@ -56,7 +56,7 @@ const Navbar = ({ title }) => {
   return (
     <div className='navbar bg-primary'>
       <h1>
-        {user && user.name.split(' ')[0]}'s {title}
+        {user && user.name.split(' ')[0] + " 's"} {title}
       </h1>
       <ul>{isAuthenticated ? userLinks : guestLinks}</ul>
     </div>
