@@ -38,6 +38,7 @@ export default (state, action) => {
         currentStocks: null,
         error: null
       };
+    case ASSET_ERROR:
     case STOCK_ERROR:
       return {
         ...state,
@@ -51,7 +52,7 @@ export default (state, action) => {
     case GET_ASSETS:
       return {
         ...state,
-        cash: action.payload.cash
+        portfolio: action.payload.portfolio
       };
     default:
       return state;

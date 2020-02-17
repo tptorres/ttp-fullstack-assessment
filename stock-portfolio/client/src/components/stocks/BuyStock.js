@@ -9,13 +9,13 @@ const BuyStock = () => {
 
   const stockContext = useContext(StockContext);
   const {
-    currentCash,
     updateStock,
     addStock,
     currentStocks,
     clearErrors,
     error,
-    getStocks
+    getStocks,
+    cash
   } = stockContext;
 
   const [stock, setStock] = useState({
@@ -30,6 +30,11 @@ const BuyStock = () => {
       clearErrors();
     }
     if (error === 'Only whole shares can be bought') {
+      setAlert(error, 'danger');
+      clearErrors();
+    }
+
+    if (error === 'Not enough cash to buy that quantity of stocks') {
       setAlert(error, 'danger');
       clearErrors();
     }
@@ -53,6 +58,9 @@ const BuyStock = () => {
     } else {
       addStock(stock);
     }
+
+    // Refresh cash in portfolio
+    // getUserAssets()
     // Resets the form after submission
     setStock({
       symbol: '',
@@ -62,7 +70,7 @@ const BuyStock = () => {
 
   return (
     <form onSubmit={onSubmit}>
-      <h1>Cash - ${currentCash}</h1>
+      <h1>Cash - ${cash}</h1>
       <input type='text' name='symbol' placeholder='Ticker' value={symbol} onChange={onChange} />
       <input
         type='text'

@@ -8,12 +8,13 @@ const auth = require('../middleware/auth');
 // User Model
 const User = require('../models/User');
 const Stock = require('../models/Stock');
-const assetware = require('../middleware/assetware');
+const fetchPortfolio = require('../middleware/latestPortfolio');
 
-router.get('/', [auth, assetware], async (req, res) => {
+router.get('/', [auth, fetchPortfolio], async (req, res) => {
   try {
-    const cash = await User.findOne({ _id: req.user.id }).select('cash -_id');
-    res.json(cash);
+    // send a payload with updated user assets
+    const portfolio = await User.findOne({ _id: req.user.id }).select('portfolio -_id');
+    res.json(portfolio);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

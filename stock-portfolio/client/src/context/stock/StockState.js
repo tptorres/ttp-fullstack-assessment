@@ -88,11 +88,13 @@ const StockState = props => {
       });
     }
   };
+
   // Getting User cash and portfolio
   // Still have to error check
   const getUserAssets = async () => {
     try {
       const res = await axios.get('/api/users');
+
       dispatch({
         type: GET_ASSETS,
         payload: res.data

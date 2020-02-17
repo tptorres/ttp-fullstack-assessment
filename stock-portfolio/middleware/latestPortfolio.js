@@ -1,22 +1,23 @@
-const axios = require('axios');
 const Stock = require('../models/Stock');
 const User = require('../models/User');
 
 module.exports = async (req, res, next) => {
-  var cash = 0;
+  var portfolioCash = 0;
   try {
     const user = await User.findOne({ _id: req.user.id });
     const query = await Stock.find({ user: req.user.id });
 
     for await (const stock of query) {
       const { shareAmount, sharePrice } = stock;
-      cash += shareAmount * sharePrice;
+      portfolioCash += shareAmount * sharePrice;
     }
-    user.cash = cash;
+
+    user.portfolio = portfolioCash.toFixed(2);
     await user.save();
 
     next();
   } catch (err) {
+    // Error would be if it more stocks are bought than the money in cash
     console.error(err.message);
     res.status(404).json({ msg: 'Request Failed' });
   }

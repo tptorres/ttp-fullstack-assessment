@@ -13,11 +13,10 @@ const Portfolio = () => {
   }, []);
 
   const stockContext = useContext(StockContext);
-  const { cash } = stockContext;
-  console.log(cash);
+  const { portfolio } = stockContext;
   return (
     <div className='container'>
-      <h1>Portfolio ${cash}</h1>
+      <h1>Portfolio ( ${portfolio} )</h1>
       <div className='grid-3-cols'>
         <div className='stocks-list'>
           <Stocks />

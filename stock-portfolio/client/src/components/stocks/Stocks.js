@@ -9,7 +9,7 @@ const Stocks = () => {
   const { currentStocks, getStocks, loading, getUserAssets } = stockContext;
 
   useEffect(() => {
-    getUserAssets();
+    //getUserAssets();
     getStocks();
     // eslint-disable-next-line
   }, []);
