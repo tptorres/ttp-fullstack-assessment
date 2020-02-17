@@ -15,14 +15,13 @@ const TransactionState = props => {
   const displayTransactions = async () => {
     try {
       const res = await axios.get('/api/transactions');
-      console.log(res.data);
 
       dispatch({
         type: DISPLAY_TRANSACTIONS,
         payload: res.data
       });
     } catch (err) {
-      dispatch({ type: DISPLAY_FAILED });
+      console.log('Display Failed');
     }
   };
 

@@ -7,5 +7,7 @@ export default (state, action) => {
         ...state,
         transactions: action.payload.transactions
       };
+    default:
+      return state;
   }
 };

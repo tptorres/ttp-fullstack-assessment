@@ -17,7 +17,6 @@ module.exports = async (req, res, next) => {
 
     next();
   } catch (err) {
-    // Error would be if it more stocks are bought than the money in cash
     console.error(err.message);
     res.status(404).json({ msg: 'Request Failed' });
   }

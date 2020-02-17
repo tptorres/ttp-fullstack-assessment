@@ -5,7 +5,7 @@ const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const auth = require('../middleware/auth');
-// User Model
+
 const User = require('../models/User');
 const Stock = require('../models/Stock');
 const fetchPortfolio = require('../middleware/latestPortfolio');
@@ -16,7 +16,6 @@ router.get('/', [auth, fetchPortfolio], async (req, res) => {
     const portfolio = await User.findOne({ _id: req.user.id }).select(
       'portfolio cash transactions -_id'
     );
-    console.log(portfolio);
     res.json(portfolio);
   } catch (err) {
     console.error(err.message);

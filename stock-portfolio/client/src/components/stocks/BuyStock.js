@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import StockContext from '../../context/stock/stockContext';
 import AlertContext from '../../context/alert/alertContext';
+import { set } from 'mongoose';
 
 const BuyStock = () => {
   // Alerts
@@ -27,6 +28,10 @@ const BuyStock = () => {
   const { symbol, shareAmount } = stock;
 
   useEffect(() => {
+    getUserAssets();
+  }, []);
+
+  useEffect(() => {
     if (error === 'Unknown symbol') {
       setAlert(error, 'danger');
       clearErrors();
@@ -40,6 +45,11 @@ const BuyStock = () => {
       setAlert(error, 'danger');
       clearErrors();
     }
+
+    if (error === 'Must specify an amount') {
+      setAlert(error, 'danger');
+      clearErrors();
+    }
     // eslint-disable-next-line
   }, [error]);
 
@@ -47,8 +57,9 @@ const BuyStock = () => {
 
   const onSubmit = async event => {
     event.preventDefault();
-    if (symbol === '' || shareAmount === '') {
-      setAlert('All fields not filled', 'danger');
+
+    if (symbol === '') {
+      setAlert('Fields not filled', 'danger');
     }
 
     // Need to cast shareAmount as the input is a string
@@ -60,11 +71,6 @@ const BuyStock = () => {
     } else {
       addStock(stock);
     }
-
-    //getUserAssets();
-
-    // Refresh cash in portfolio
-    // getUserAssets()
     // Resets the form after submission
     setStock({
       symbol: '',

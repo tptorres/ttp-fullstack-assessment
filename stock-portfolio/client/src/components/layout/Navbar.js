@@ -18,7 +18,6 @@ const Navbar = ({ title }) => {
 
   const userLinks = (
     <Fragment>
-      <li>Hello {user && user.name.split(' ')[0]}</li>
       <li>
         <Link to='/'>Portfolio</Link>
       </li>
@@ -56,7 +55,9 @@ const Navbar = ({ title }) => {
 
   return (
     <div className='navbar bg-primary'>
-      <h1>{title}</h1>
+      <h1>
+        {user && user.name.split(' ')[0]}'s {title}
+      </h1>
       <ul>{isAuthenticated ? userLinks : guestLinks}</ul>
     </div>
   );

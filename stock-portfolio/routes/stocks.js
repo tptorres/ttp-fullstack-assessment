@@ -41,8 +41,10 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const { symbol, shareAmount, sharePrice, color } = req.body;
-
+    const { symbol, shareAmount } = req.body;
+    //console.log(req.stockPrice);
+    const sharePrice = req.stockPrice;
+    const color = req.color;
     try {
       const newStock = new Stock({
         symbol,

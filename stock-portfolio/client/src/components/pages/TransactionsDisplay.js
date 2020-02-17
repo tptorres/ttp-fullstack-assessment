@@ -1,20 +1,23 @@
 import React, { useContext, useEffect } from 'react';
 import Transactions from '../transactions/Transactions';
 import TransactionContext from '../../context/transactions/transactionContext';
+import AuthContext from '../../context/auth/authContext';
 
 const TransactionsDisplay = () => {
   const transactionContext = useContext(TransactionContext);
   const { displayTransactions } = transactionContext;
 
+  const authContext = useContext(AuthContext);
+
   useEffect(() => {
+    authContext.userLoaded();
     displayTransactions();
+    // eslint-disable-next-line
   }, []);
 
   return (
     <div className='container'>
       <h1>Transactions</h1>
-      <button>HELLO</button>
-      <div></div>
       <Transactions />
     </div>
   );

@@ -9,13 +9,18 @@ module.exports = async (req, res, next) => {
     const user = await User.findOne({ _id: req.user.id });
     const { cash } = user;
 
+    if (shareAmount === 0) {
+      flag = true;
+      throw { msg: 'Must specify an amount' };
+    }
+
     if (!Number.isInteger(shareAmount)) {
       flag = true;
       throw { msg: 'Only whole shares can be bought' };
     }
 
     const priceCheck = await axios.get(
-      `https://cloud.iexapis.com/stable/stock/${symbol}/quote?token=sk_cc1c7f21c56d497db10a82203dc80584&filter=symbol,latestPrice`
+      `https://cloud.iexapis.com/stable/stock/${symbol}/quote?token=sk_cc1c7f21c56d497db10a82203dc80584&filter=symbol,latestPrice,open`
     );
 
     const price = priceCheck.data.latestPrice;
@@ -36,6 +41,12 @@ module.exports = async (req, res, next) => {
       },
       { new: true }
     );
+
+    //
+    req.stockPrice = price;
+    if (priceCheck.data.latestPrice === priceCheck.data.open) req.color = 0;
+    if (priceCheck.data.latestPrice > priceCheck.data.open) req.color = 1;
+    if (priceCheck.data.latestPrice < priceCheck.data.open) req.color = -1;
 
     const newCashAmount = cash - price * shareAmount;
     user.cash = newCashAmount.toFixed(2);
