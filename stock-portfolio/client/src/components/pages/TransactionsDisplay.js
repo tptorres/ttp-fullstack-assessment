@@ -1,15 +1,19 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Transactions from '../transactions/Transactions';
 import TransactionContext from '../../context/transactions/transactionContext';
 
 const TransactionsDisplay = () => {
   const transactionContext = useContext(TransactionContext);
-  const { test } = transactionContext;
+  const { displayTransactions } = transactionContext;
+
+  useEffect(() => {
+    displayTransactions();
+  }, []);
 
   return (
     <div className='container'>
       <h1>Transactions</h1>
-      <button onClick={test}>hELLO</button>
+      <button>HELLO</button>
       <div></div>
       <Transactions />
     </div>

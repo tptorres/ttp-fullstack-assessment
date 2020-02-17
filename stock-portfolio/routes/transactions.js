@@ -1,16 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const config = require('config');
-const axios = require('axios');
 const auth = require('../middleware/auth');
-const validate = require('../middleware/stockValidator');
+const User = require('../models/User');
 
-router.get('/', [auth, validate], async (req, res) => {
+router.get('/', auth, async (req, res) => {
   try {
-    /* const rest = await axios.get(
-      `https://cloud.iexapis.com/stable/stock/msft/quote?token=pk_3e83e86a69a84ba7af4a776091c61dc0&filter=open,%20latestPrice,%20isUSMarketOpen`
-    ); */
-    res.send('test');
+    const trans = await User.findOne({ _id: req.user.id }).select('transactions -_id');
+    res.json(trans);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -18,5 +14,3 @@ router.get('/', [auth, validate], async (req, res) => {
 });
 
 module.exports = router;
-
-/* https://cloud.iexapis.com/stable/stock/market/quote?symbols=fb,msft,aapl&token=pk_3e83e86a69a84ba7af4a776091c61dc0&filter=symbol,open,latestPrice,isUSMarketOpen */

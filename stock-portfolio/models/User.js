@@ -22,7 +22,10 @@ const UserSchema = mongoose.Schema({
   portfolio: {
     type: Number
   },
-  transactions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'stocks', default: [] }],
+  transactions: {
+    type: Array,
+    default: []
+  },
   date: {
     type: Date,
     default: Date.now

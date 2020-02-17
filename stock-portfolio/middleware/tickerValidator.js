@@ -1,5 +1,6 @@
 const axios = require('axios');
 const User = require('../models/User');
+const uuid = require('uuid');
 
 module.exports = async (req, res, next) => {
   try {
@@ -22,6 +23,19 @@ module.exports = async (req, res, next) => {
       flag = true;
       throw { msg: 'Not enough cash to buy that quantity of stocks' };
     }
+
+    // Create a unique id for each trade in the transactions array to pass it as the key prop when displaying
+    const id = uuid.v4();
+
+    await User.findOneAndUpdate(
+      { _id: req.user.id },
+      {
+        $push: {
+          transactions: { id: id, symbol: symbol, shareAmount: shareAmount, sharePrice: price }
+        }
+      },
+      { new: true }
+    );
 
     const newCashAmount = cash - price * shareAmount;
     user.cash = newCashAmount.toFixed(2);
