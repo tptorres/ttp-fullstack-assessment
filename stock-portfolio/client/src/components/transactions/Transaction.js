@@ -7,7 +7,7 @@ const Transaction = ({ transaction }) => {
   return (
     <div className='trans-card bg-light'>
       <h5>BUY</h5>
-      <h4>( {symbol} )</h4>
+      <h4>( {symbol.toUpperCase()} )</h4>
       <div className='shares'>
         <h4>{shareAmount} Shares @ &nbsp;</h4>
         <span> </span>
