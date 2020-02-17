@@ -6,11 +6,11 @@ Deployed application can be found [here](https://ttp-fullstack-stock-portfolio.h
 
 # Usage
 
-'''bash
+```bash
 cd stock-portfolio
 npm install
 npm client-install
-'''
+```
 
 # Running the Application
 
