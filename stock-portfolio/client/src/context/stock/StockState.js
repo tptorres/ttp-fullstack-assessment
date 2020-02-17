@@ -14,8 +14,8 @@ import {
 const StockState = props => {
   const initialState = {
     currentCash: 5000,
-    error: null,
     portfolioCash: 0,
+    error: null,
     currentStocks: [],
     loading: true
   };
@@ -23,7 +23,7 @@ const StockState = props => {
   const [state, dispatch] = useReducer(StockReducer, initialState);
 
   // Add Stock
-  // Have to add the stocks current price in BuyStock
+
   const addStock = async stock => {
     const config = {
       headers: {
@@ -38,7 +38,6 @@ const StockState = props => {
         payload: res.data
       });
     } catch (err) {
-      console.log(err);
       dispatch({
         type: STOCK_ERROR,
         payload: err.response.data.msg
@@ -47,7 +46,7 @@ const StockState = props => {
   };
 
   // Update a stock
-  const updateStock = async (stock, shareAmount) => {
+  const updateStock = async (stockToUpdate, newStock) => {
     const config = {
       headers: {
         'Content-Type': 'application/json'
@@ -55,7 +54,7 @@ const StockState = props => {
     };
 
     try {
-      const res = await axios.put(`/api/stocks/${stock._id}`, { stock, shareAmount }, config);
+      const res = await axios.put(`/api/stocks/${stockToUpdate._id}`, newStock, config);
 
       dispatch({
         type: UPDATE_STOCK,
@@ -66,7 +65,7 @@ const StockState = props => {
     } catch (err) {
       dispatch({
         type: STOCK_ERROR,
-        payload: err.response.data.errors
+        payload: err.response.data.msg
       });
     }
   };

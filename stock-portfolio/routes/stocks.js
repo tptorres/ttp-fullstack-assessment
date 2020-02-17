@@ -41,7 +41,6 @@ router.post(
     // If it is not empty, one of the fields hasnt been filled in
 
     if (!errors.isEmpty()) {
-      console.log('EETTTT');
       return res.status(400).json({ errors: errors.array() });
     }
     const { symbol, shareAmount, sharePrice, color } = req.body;
@@ -66,12 +65,11 @@ router.post(
 
 // @route api/stocks/:id
 // @info Update user's stock amount
-router.put('/:id', auth, async (req, res) => {
-  const { symbol, shareAmount, sharePrice } = req.body;
+router.put('/:id', [auth, validateTicker], async (req, res) => {
+  const { shareAmount } = req.body;
 
-  const stockFields = {};
-  if (symbol) stockFields.symbol = symbol;
-  if (shareAmount) stockFields.shareAmount = shareAmount;
+  const stockField = {};
+  if (shareAmount) stockField.shareAmount = shareAmount;
 
   try {
     // getting stock from db through parameter
@@ -83,7 +81,8 @@ router.put('/:id', auth, async (req, res) => {
       return res.status(401).json({ msg: 'Authorization denied' });
     }
 
-    stock = await Stock.findByIdAndUpdate(req.params.id, { $set: stockFields }, { new: true });
+    stockField.shareAmount += stock.shareAmount;
+    stock = await Stock.findByIdAndUpdate(req.params.id, { $set: stockField }, { new: true });
     res.json(stock);
 
     //
@@ -93,22 +92,6 @@ router.put('/:id', auth, async (req, res) => {
   }
 });
 
-/* router.put('/', auth, async (req, res) => {
-  try {
-    const query = Stock.find({ user: req.user.id });
-    for await (const stock of query) {
-      const price = await axios.get(
-        `https://cloud.iexapis.com/stable/stock/${stock.symbol}/quote?token=sk_cc1c7f21c56d497db10a82203dc80584&filter=open,latestPrice,isUSMarketOpen`
-      );
-      stock.sharePrice = price.data.latestPrice;
-      await stock.save();
-    }
-    const stocks = await Stock.find({ user: req.user.id }).sort({ date: -1 });
-    res.json(stocks);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
-  }
-}); */
+/* { new: true } */
 
 module.exports = router;

@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import StockContext from '../../context/stock/stockContext';
 import AlertContext from '../../context/alert/alertContext';
-import { CLEAR_ERRORS } from '../../context/types';
 
 const BuyStock = () => {
   // Alerts
@@ -14,9 +13,9 @@ const BuyStock = () => {
     updateStock,
     addStock,
     currentStocks,
-    getStocks,
     clearErrors,
-    error
+    error,
+    getStocks
   } = stockContext;
 
   const [stock, setStock] = useState({
@@ -26,27 +25,29 @@ const BuyStock = () => {
   const { symbol, shareAmount } = stock;
 
   useEffect(() => {
-    console.log(error);
     if (error === 'Unknown symbol') {
       setAlert(error, 'danger');
       clearErrors();
     }
+    if (error === 'Only whole shares can be bought') {
+      setAlert(error, 'danger');
+      clearErrors();
+    }
+    // eslint-disable-next-line
   }, [error]);
 
   const onChange = event => setStock({ ...stock, [event.target.name]: event.target.value });
 
   const onSubmit = async event => {
     event.preventDefault();
-
     if (symbol === '' || shareAmount === '') {
       setAlert('All fields not filled', 'danger');
     }
 
+    stock.shareAmount = Number(shareAmount);
     var stockToUpdate = currentStocks.find(updatedStock => updatedStock.symbol === stock.symbol);
-
-    // Set an alert for when fields are not filled in //
     if (stockToUpdate !== undefined) {
-      updateStock(stockToUpdate, stock.shareAmount);
+      updateStock(stockToUpdate, stock);
     } else {
       addStock(stock);
     }
