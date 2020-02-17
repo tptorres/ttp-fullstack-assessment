@@ -1,6 +1,7 @@
 import React, { useReducer } from 'react';
 import TransactionReducer from './transactionReducer';
 import TransactionContext from './transactionContext';
+import axios from 'axios';
 
 // display list of trades
 const TransactionState = props => {
@@ -31,8 +32,6 @@ const TransactionState = props => {
   };
 
   const [state] = useReducer(TransactionReducer, initialState);
-
-  // Display transactions
 
   return (
     <TransactionContext.Provider

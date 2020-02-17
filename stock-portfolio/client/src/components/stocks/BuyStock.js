@@ -1,26 +1,46 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import StockContext from '../../context/stock/stockContext';
+import AlertContext from '../../context/alert/alertContext';
+import { CLEAR_ERRORS } from '../../context/types';
 
 const BuyStock = () => {
+  // Alerts
+  const alertContext = useContext(AlertContext);
+  const { setAlert } = alertContext;
+
   const stockContext = useContext(StockContext);
-  const { currentCash, updateStock, addStock, currentStocks } = stockContext;
+  const {
+    currentCash,
+    updateStock,
+    addStock,
+    currentStocks,
+    getStocks,
+    clearErrors,
+    error
+  } = stockContext;
 
   const [stock, setStock] = useState({
     symbol: '',
-    shareAmount: '',
-    // Get price from symbol
-    sharePrice: 1000
+    shareAmount: ''
   });
   const { symbol, shareAmount } = stock;
 
+  useEffect(() => {
+    console.log(error);
+    if (error === 'Unknown symbol') {
+      setAlert(error, 'danger');
+      clearErrors();
+    }
+  }, [error]);
+
   const onChange = event => setStock({ ...stock, [event.target.name]: event.target.value });
 
-  const onSubmit = event => {
+  const onSubmit = async event => {
     event.preventDefault();
 
-    /* var stockExists = currentStocks.some(storedStock => {
-      return storedStock.symbol == stock.symbol;
-    }); */
+    if (symbol === '' || shareAmount === '') {
+      setAlert('All fields not filled', 'danger');
+    }
 
     var stockToUpdate = currentStocks.find(updatedStock => updatedStock.symbol === stock.symbol);
 
@@ -30,12 +50,10 @@ const BuyStock = () => {
     } else {
       addStock(stock);
     }
-
     // Resets the form after submission
     setStock({
       symbol: '',
-      shareAmount: '',
-      sharePrice: 1000
+      shareAmount: ''
     });
   };
 
@@ -58,17 +76,3 @@ const BuyStock = () => {
 };
 
 export default BuyStock;
-
-/* const fetchTickerPrice = async () => {
-    const res = await axios.get(
-      `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${this.state.symbol}&apikey=PV28K0ZS6QT49SGT`
-    );
-
-    console.log(res.data);
-    var test = res.data['Global Quote']['02. open'];
-    console.log(test);
-    var cash = 5000;
-     if (test * 10 > cash) {
-    } else {
-    }
-  }; */

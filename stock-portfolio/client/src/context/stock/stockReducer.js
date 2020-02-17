@@ -4,7 +4,9 @@ import {
   SET_CURRENT,
   STOCK_ERROR,
   GET_STOCKS,
-  CLEAR_STOCKS
+  CLEAR_STOCKS,
+  REFRESH_STOCKS,
+  CLEAR_ERRORS
 } from '../types';
 
 export default (state, action) => {
@@ -26,6 +28,7 @@ export default (state, action) => {
         ...state,
         currentStocks: [action.payload, ...state.currentStocks] // making a copy and adding the payload
       };
+    case REFRESH_STOCKS:
     case GET_STOCKS:
       return {
         ...state,
@@ -42,6 +45,11 @@ export default (state, action) => {
       return {
         ...state,
         error: action.payload
+      };
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null
       };
     default:
       return state;

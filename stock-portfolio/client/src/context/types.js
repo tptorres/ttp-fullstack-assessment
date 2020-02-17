@@ -7,6 +7,7 @@ export const GRAB_STOCK_TO_UPDATE = 'GRAB_STOCK_TO_UPDATE';
 export const STOCK_ERROR = 'STOCK_ERROR';
 export const GET_STOCKS = 'GET_STOCKS';
 export const CLEAR_STOCKS = 'CLEAR_STOCKS';
+export const REFRESH_STOCKS = 'REFRESH_STOCKS';
 
 /* Authentication Types */
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';

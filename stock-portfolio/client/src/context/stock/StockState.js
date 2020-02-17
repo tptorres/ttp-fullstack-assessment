@@ -2,7 +2,14 @@ import React, { useReducer } from 'react';
 import StockReducer from './stockReducer';
 import StockContext from './stockContext';
 import axios from 'axios';
-import { ADD_STOCK, UPDATE_STOCK, STOCK_ERROR, GET_STOCKS, CLEAR_STOCKS } from '../types';
+import {
+  ADD_STOCK,
+  UPDATE_STOCK,
+  STOCK_ERROR,
+  GET_STOCKS,
+  CLEAR_STOCKS,
+  CLEAR_ERRORS
+} from '../types';
 
 const StockState = props => {
   const initialState = {
@@ -10,7 +17,6 @@ const StockState = props => {
     error: null,
     portfolioCash: 0,
     currentStocks: [],
-    stockToUpdate: null,
     loading: true
   };
 
@@ -32,9 +38,10 @@ const StockState = props => {
         payload: res.data
       });
     } catch (err) {
+      console.log(err);
       dispatch({
         type: STOCK_ERROR,
-        payload: err.response.data.errors
+        payload: err.response.data.msg
       });
     }
   };
@@ -81,13 +88,32 @@ const StockState = props => {
     }
   };
 
+  const refreshStocks = async () => {
+    try {
+      const res = await axios.get('/api/stocks/refresh');
+
+      dispatch({
+        type: GET_STOCKS,
+        payload: res.data
+      });
+    } catch (err) {
+      dispatch({
+        type: STOCK_ERROR,
+        payload: err.response.data.errors
+      });
+    }
+  };
+
   const clearStocks = () => {
     dispatch({
       type: CLEAR_STOCKS
     });
   };
-
-  // set stockToUpdate and remove updated stock from list ; keep immutability
+  const clearErrors = () => {
+    dispatch({
+      type: CLEAR_ERRORS
+    });
+  };
 
   return (
     <StockContext.Provider
@@ -101,7 +127,9 @@ const StockState = props => {
         addStock,
         updateStock,
         getStocks,
-        clearStocks
+        clearStocks,
+        refreshStocks,
+        clearErrors
       }}
     >
       {props.children}

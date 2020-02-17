@@ -15,7 +15,12 @@ const StockSchema = mongoose.Schema({
   },
   sharePrice: {
     type: Number,
-    required: true
+    required: true,
+    default: 0
+  },
+  color: {
+    type: Number,
+    default: 0
   },
   date: {
     type: Date,

@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 import StockContext from '../../context/stock/stockContext';
 import StockItem from './StockItem';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
