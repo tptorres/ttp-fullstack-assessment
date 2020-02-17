@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const connectDB = require('./config/database');
+const path = require('path');
 
 // Connect to MongoDB
 connectDB();
@@ -17,3 +18,13 @@ app.use('/api/users', require('./routes/users'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/stocks', require('./routes/stocks'));
 app.use('/api/transactions', require('./routes/transactions'));
+
+// Serve static assets
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'));
+
+  // We are loading the static index.html file signifying production
+  app.get('*', (req, res) =>
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+  );
+}
