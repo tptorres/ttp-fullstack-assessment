@@ -16,6 +16,7 @@ const BuyStock = () => {
   });
   const { symbol, shareAmount } = stock;
 
+  // @info Hook that reloads everytime the server sends back an error denoting incorrect input
   useEffect(() => {
     if (error === 'Unknown symbol') {
       setAlert(error, 'danger');

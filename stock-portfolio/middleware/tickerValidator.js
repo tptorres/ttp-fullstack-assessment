@@ -2,6 +2,10 @@ const axios = require('axios');
 const User = require('../models/User');
 const uuid = require('uuid');
 
+// @info Validates input from user when buying a stock. Checks all possible incorrect inputs before calling to see if the symbol is valid
+// After, the transaction is written to the database, and based off user's payment, state changes occur and values are updated
+// Finally, in the case of a new stock being added to a user's portfolio, color and price are attached to the request body so as to
+// bypass defualt values
 module.exports = async (req, res, next) => {
   try {
     var flag = false;

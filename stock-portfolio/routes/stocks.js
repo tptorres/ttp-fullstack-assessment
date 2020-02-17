@@ -3,12 +3,12 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const auth = require('../middleware/auth');
 const validate = require('../middleware/stockValidator');
-const User = require('../models/User');
 const Stock = require('../models/Stock');
 const validateTicker = require('../middleware/tickerValidator');
 
-// @route /api/auth
-// @info Get all current stocks in portfolio
+// @route GET /api/stocks
+// @info Get all current stocks in portfolio. Validates user with auth middleware passed in ( and does so in most other functions as well )
+// Extensive middleware layer ; turned the function into an API layer so as to grab most updated prices
 router.get('/', [auth, validate], async (req, res) => {
   try {
     // get most recent stocks
@@ -17,9 +17,13 @@ router.get('/', [auth, validate], async (req, res) => {
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
+    s;
   }
 });
 
+// @route POST /api/stocks
+// @info Creates a new stock in the users portfolio and middleware updates corresponding state changes.
+// In this case of a POST request, we attach stock price and color to the request itself to be able to update UI immediately.
 router.post(
   '/',
   [
@@ -36,15 +40,13 @@ router.post(
   ],
   async (req, res) => {
     const errors = validationResult(req);
-    // If it is not empty, one of the fields hasnt been filled in
-
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
     const { symbol, shareAmount } = req.body;
-    //console.log(req.stockPrice);
     const sharePrice = req.stockPrice;
     const color = req.color;
+
     try {
       const newStock = new Stock({
         symbol,
@@ -63,8 +65,8 @@ router.post(
   }
 );
 
-// @route api/stocks/:id
-// @info Update user's stock amount
+// @route PUT api/stocks/:id
+// @info Updates a user's stock. Middleware validates input and then updates corresponding state changes
 router.put('/:id', [auth, validateTicker], async (req, res) => {
   const { shareAmount } = req.body;
 
@@ -72,7 +74,7 @@ router.put('/:id', [auth, validateTicker], async (req, res) => {
   if (shareAmount) stockField.shareAmount = shareAmount;
 
   try {
-    // getting stock from db through parameter
+    // getting stock from database through parameter
     let stock = await Stock.findById(req.params.id);
     if (!stock) return res.status(404).json({ msg: 'Stock not found' });
 
@@ -93,7 +95,5 @@ router.put('/:id', [auth, validateTicker], async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
-
-/* { new: true } */
 
 module.exports = router;

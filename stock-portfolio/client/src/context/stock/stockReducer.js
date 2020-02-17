@@ -11,14 +11,6 @@ import {
 
 export default (state, action) => {
   switch (action.type) {
-    /*  case UPDATE_STOCK:
-      return {
-        ...state,
-        currentStocks: [
-          action.payload,
-          ...state.currentStocks.filter(stock => stock.symbol !== action.payload.symbol)
-        ]
-      }; */
     case ADD_STOCK:
       return {
         ...state,

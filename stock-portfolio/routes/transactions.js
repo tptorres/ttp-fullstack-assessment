@@ -3,6 +3,8 @@ const router = express.Router();
 const auth = require('../middleware/auth');
 const User = require('../models/User');
 
+// @route GET /api/transactions
+// @info Returns a list of all transactions made that is stored in the database
 router.get('/', auth, async (req, res) => {
   try {
     const trans = await User.findOne({ _id: req.user.id }).select('transactions -_id');

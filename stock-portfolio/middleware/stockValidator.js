@@ -1,8 +1,9 @@
 const axios = require('axios');
 const Stock = require('../models/Stock');
 
+// @info Checks whether a stock is over/under the open day price. Color var is retained to update UI colors based on value.
+// Also updates price of all stocks a user owns and writes values to the database
 module.exports = async (req, res, next) => {
-  var cash = 0;
   try {
     const query = Stock.find({ user: req.user.id });
     for await (const stock of query) {

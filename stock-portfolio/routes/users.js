@@ -7,9 +7,10 @@ const jwt = require('jsonwebtoken');
 const auth = require('../middleware/auth');
 
 const User = require('../models/User');
-const Stock = require('../models/Stock');
 const fetchPortfolio = require('../middleware/latestPortfolio');
 
+// @route GET /api/users
+// @info Returns updated information on a user's assets, such as money in a portfolio, current cash flow etc.
 router.get('/', [auth, fetchPortfolio], async (req, res) => {
   try {
     // send a payload with updated user assets
@@ -23,8 +24,8 @@ router.get('/', [auth, fetchPortfolio], async (req, res) => {
   }
 });
 
-// @route POST api/users
-// @info Registering a user
+// @route POST /api/users
+// @info Registers a new user and then requests a json web token to stay logged in
 router.post(
   '/',
   [

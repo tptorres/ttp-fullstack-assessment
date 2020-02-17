@@ -25,7 +25,7 @@ const StockState = props => {
 
   const [state, dispatch] = useReducer(StockReducer, initialState);
 
-  // Add Stock
+  // Adds Stock
   const addStock = async stock => {
     const config = {
       headers: {
@@ -47,7 +47,7 @@ const StockState = props => {
     }
   };
 
-  // Update a stock
+  // Updates a stock
   const updateStock = async (stockToUpdate, newStock) => {
     const config = {
       headers: {
@@ -72,7 +72,7 @@ const StockState = props => {
     }
   };
 
-  // Get Stocks
+  // Fetch Stocks
   const getStocks = async () => {
     try {
       const res = await axios.get('/api/stocks');
@@ -89,8 +89,7 @@ const StockState = props => {
     }
   };
 
-  // Getting User cash and portfolio
-  // Still have to error check
+  // Getting User's cash and portfolio
   const getUserAssets = async () => {
     try {
       const res = await axios.get('/api/users');
@@ -107,11 +106,14 @@ const StockState = props => {
     }
   };
 
+  // Clear stocks after logout so as to safeguard against UI stutters
   const clearStocks = () => {
     dispatch({
       type: CLEAR_STOCKS
     });
   };
+
+  // Clear Errors
   const clearErrors = () => {
     dispatch({
       type: CLEAR_ERRORS

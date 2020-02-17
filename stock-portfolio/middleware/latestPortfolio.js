@@ -1,6 +1,7 @@
 const Stock = require('../models/Stock');
 const User = require('../models/User');
 
+// @info Updates a user's portfolio to show current cash in stocks
 module.exports = async (req, res, next) => {
   var portfolioCash = 0;
   try {

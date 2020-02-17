@@ -1,6 +1,6 @@
 # Stock Portfolio App
 
-> Fullstack MERN stock portfolio using hooks and the Context API
+> Full stack MERN stock portfolio using hooks and the Context API
 
 Deployed application can be found [here](https://ttp-fullstack-stock-portfolio.herokuapp.com/)
 
@@ -15,6 +15,7 @@ npm client-install
 # Running the Application
 
 Run both the server and client at the same time with [concurrently](https://www.npmjs.com/package/concurrently)
-'''bash
+
+```bash
 npm run dev
-'''
+```

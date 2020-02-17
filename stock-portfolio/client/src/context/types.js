@@ -1,3 +1,4 @@
+/* Stock / Transaction Types */
 export const DISPLAY_TRANSACTIONS = 'DISPLAY_TRANSACTIONS';
 export const DISPLAY_FAILED = 'DISPLAY_FAILED';
 export const ADD_STOCK = 'ADD_STOCK';

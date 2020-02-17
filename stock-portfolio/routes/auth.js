@@ -8,7 +8,7 @@ const auth = require('../middleware/auth');
 const User = require('../models/User');
 
 // @route /api/auth
-// @info Get logged in user
+// @info Checks if the credentials are valid and if they are returns a token that is put in local storage
 router.post(
   '/',
   [
@@ -17,7 +17,6 @@ router.post(
   ],
   async (req, res) => {
     const errors = validationResult(req);
-    // If it is not empty, one of the fields hasnt been filled in
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
@@ -45,6 +44,7 @@ router.post(
         }
       };
 
+      // Signs the token and includes how long it will last, as well as a payload to identify current user
       jwt.sign(payload, config.get('jwtSecret'), { expiresIn: 3600 }, (err, token) => {
         if (err) throw err;
         res.json({ token });
@@ -56,9 +56,11 @@ router.post(
   }
 );
 
+// @route /api/auth
+// @info Returns a user object to match valid token after page reloads
 router.get('/', auth, async (req, res) => {
   try {
-    // if the correct token is sent and logged in, the request will have a user object with it,
+    // If the correct token is sent and logged in, the request will have a user object with it,
     // but we dont need the password so we omit it
     const user = await User.findById(req.user.id).select('-password');
     res.json(user);

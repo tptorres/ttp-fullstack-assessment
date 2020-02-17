@@ -8,6 +8,7 @@ const Stocks = () => {
   const stockContext = useContext(StockContext);
   const { currentStocks, getStocks, loading } = stockContext;
 
+  // @info Fetches user's stock everytime a rerender occurs to show latest stocks in UI
   useEffect(() => {
     getStocks();
     // eslint-disable-next-line

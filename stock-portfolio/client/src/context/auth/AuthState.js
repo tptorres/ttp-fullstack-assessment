@@ -67,6 +67,7 @@ const AuthState = props => {
     dispatch({ type: LOGOUT });
   };
 
+  // Makes sure the user is loaded and is constantly called everytime a page loads to make sure token is valid
   const userLoaded = async () => {
     if (localStorage.token) {
       setToken(localStorage.token);

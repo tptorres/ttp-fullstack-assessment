@@ -23,6 +23,7 @@ const AlertState = props => {
     setTimeout(() => dispatch({ type: REMOVE_ALERT, payload: id }), timeoutLength);
   };
 
+  // Remove Alerts after successful login
   const removeAlerts = () => dispatch({ type: REMOVE_ALL_ALERTS });
   return (
     <AlertContext.Provider

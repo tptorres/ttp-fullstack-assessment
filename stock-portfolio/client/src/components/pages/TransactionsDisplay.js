@@ -3,6 +3,8 @@ import Transactions from '../transactions/Transactions';
 import TransactionContext from '../../context/transactions/transactionContext';
 import AuthContext from '../../context/auth/authContext';
 
+// @info Page that shows a users past transactions
+// Calls upon the /api/transactions endpoint
 const TransactionsDisplay = () => {
   const transactionContext = useContext(TransactionContext);
   const { displayTransactions } = transactionContext;

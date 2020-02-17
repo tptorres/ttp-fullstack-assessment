@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+// @info Assigns the token into the headers file to validate user
 const setToken = token => {
   if (token) {
     axios.defaults.headers.common['x-auth-token'] = token;
