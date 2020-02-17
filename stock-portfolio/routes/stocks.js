@@ -3,7 +3,6 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const auth = require('../middleware/auth');
 const validate = require('../middleware/stockValidator');
-const cors = require('cors');
 const User = require('../models/User');
 const Stock = require('../models/Stock');
 const validateTicker = require('../middleware/tickerValidator');
@@ -13,7 +12,7 @@ const validateTicker = require('../middleware/tickerValidator');
 router.get('/', [auth, validate], async (req, res) => {
   try {
     // get most recent stocks
-    const stocks = await Stock.find({ user: req.user.id }).sort({ date: -1 });
+    const stocks = await Stock.find({ user: req.user.id }).sort({ shareAmount: -1 });
     res.json(stocks);
   } catch (err) {
     console.error(err.message);
@@ -82,7 +81,9 @@ router.put('/:id', [auth, validateTicker], async (req, res) => {
 
     stockField.shareAmount += stock.shareAmount;
     stock = await Stock.findByIdAndUpdate(req.params.id, { $set: stockField }, { new: true });
-    res.json(stock);
+
+    const stocks = await Stock.find({ user: req.user.id }).sort({ shareAmount: -1 });
+    res.json(stocks);
 
     //
   } catch (err) {

@@ -4,7 +4,6 @@ import {
   STOCK_ERROR,
   GET_STOCKS,
   CLEAR_STOCKS,
-  REFRESH_STOCKS,
   CLEAR_ERRORS,
   GET_ASSETS,
   ASSET_ERROR
@@ -12,21 +11,21 @@ import {
 
 export default (state, action) => {
   switch (action.type) {
-    case UPDATE_STOCK:
+    /*  case UPDATE_STOCK:
       return {
         ...state,
         currentStocks: [
           action.payload,
           ...state.currentStocks.filter(stock => stock.symbol !== action.payload.symbol)
         ]
-      };
+      }; */
     case ADD_STOCK:
       return {
         ...state,
-        currentStocks: [action.payload, ...state.currentStocks] // making a copy and adding the payload
+        currentStocks: [...state.currentStocks, action.payload] // making a copy and adding the payload
       };
-    case REFRESH_STOCKS:
     case GET_STOCKS:
+    case UPDATE_STOCK:
       return {
         ...state,
         currentStocks: action.payload,
@@ -52,7 +51,8 @@ export default (state, action) => {
     case GET_ASSETS:
       return {
         ...state,
-        portfolio: action.payload.portfolio
+        portfolio: action.payload.portfolio,
+        cash: action.payload.cash
       };
     default:
       return state;

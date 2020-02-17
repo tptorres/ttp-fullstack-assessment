@@ -13,7 +13,7 @@ const fetchPortfolio = require('../middleware/latestPortfolio');
 router.get('/', [auth, fetchPortfolio], async (req, res) => {
   try {
     // send a payload with updated user assets
-    const portfolio = await User.findOne({ _id: req.user.id }).select('portfolio -_id');
+    const portfolio = await User.findOne({ _id: req.user.id }).select('portfolio cash -_id');
     res.json(portfolio);
   } catch (err) {
     console.error(err.message);

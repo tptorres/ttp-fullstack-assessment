@@ -17,11 +17,16 @@ module.exports = async (req, res, next) => {
       `https://cloud.iexapis.com/stable/stock/${symbol}/quote?token=sk_cc1c7f21c56d497db10a82203dc80584&filter=symbol,latestPrice`
     );
 
-    const compare = priceCheck.data.latestPrice;
-    if (compare * shareAmount > cash) {
+    const price = priceCheck.data.latestPrice;
+    if (price * shareAmount > cash) {
       flag = true;
       throw { msg: 'Not enough cash to buy that quantity of stocks' };
     }
+
+    const newCashAmount = cash - price * shareAmount;
+    user.cash = newCashAmount.toFixed(2);
+    user.save();
+
     next();
   } catch (err) {
     console.error(err.message);

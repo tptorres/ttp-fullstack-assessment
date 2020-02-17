@@ -15,7 +15,9 @@ const BuyStock = () => {
     clearErrors,
     error,
     getStocks,
-    cash
+    cash,
+    getUserAssets,
+    portfolio
   } = stockContext;
 
   const [stock, setStock] = useState({
@@ -58,6 +60,8 @@ const BuyStock = () => {
     } else {
       addStock(stock);
     }
+
+    //getUserAssets();
 
     // Refresh cash in portfolio
     // getUserAssets()
